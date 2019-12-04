@@ -5,7 +5,7 @@ class Board
 	attr_reader :cells
 
 	def initialize
-		@rows = [*?A..?D] #["A","B","C","D"]
+		@rows = [*?A..?D] 
 		@columns = [*1..4].map { |n| n.to_s }
 		@cells = cell_create
 	end
@@ -46,7 +46,14 @@ class Board
 		end
 		first = coordinates.first
 		row = first[0]
-		col = first[1]
+		col = first[1].to_i
+		row_array = (row.."Z").to_a
+		final_row_array = row_array.slice!(0,ship.length)
+		final_row_array.map! do |element|
+			element + col.to_s
+		end
+		
+		binding.pry
 		return true
 	end
 
