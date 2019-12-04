@@ -56,10 +56,11 @@ class Board
 		final_col_array = col_array.map do |element|
 			row + element.to_s
 		end
-		if coordinates != (final_col_array || final_row_array)
+		if coordinates == final_col_array || coordinates == final_row_array
+			return true
+		else
 			return false
 		end	
-		return true
 	end
 
 
