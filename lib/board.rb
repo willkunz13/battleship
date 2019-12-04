@@ -25,9 +25,19 @@ class Board
 		holder_array.each.with_index do |cell, index|
 			hash[holder_array[index].coordinate] = cell
 		end
-		binding.pry
 		return hash
 	end
+	
+	def valid_coordinate?(check_coordinate)
+		@cells.values.each do |cell|
+			if cell.coordinate == check_coordinate
+				return true
+			end
+		end
+			return false
+	end
+
+			
 end
 
 
