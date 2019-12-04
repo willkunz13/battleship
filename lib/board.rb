@@ -5,7 +5,7 @@ class Board
 	attr_reader :cells
 
 	def initialize
-		@rows = [*?A..?D] 
+		@rows = [*?A..?D]
 		@columns = [*1..4].map { |n| n.to_s }
 		@cells = cell_create
 	end
@@ -44,6 +44,10 @@ class Board
 		if ship.length != coordinates.count
 			return false
 		end
+		if overlap?(coordinates) == false
+			return false
+		end
+
 		first = coordinates.first
 		row = first[0]
 		col = first[1].to_i
@@ -60,8 +64,23 @@ class Board
 			return true
 		else
 			return false
-		end	
+		end
 	end
 
+	def place(ship, coordinates)
+		coordinates.each do |coordinate|
+			@cells[coordinate].place_ship(ship)
+		end
+	end
+
+	def overlap?(coordinates)
+		coordinates.each do |coordinate|
+			if @cells[coordinate].empty? == true
+			else
+				return false
+			end
+		end
+		return true
+	end
 
 end
