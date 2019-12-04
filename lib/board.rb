@@ -5,7 +5,7 @@ class Board
 	attr_reader :cells
 
 	def initialize
-		@rows = [*?A..?D] 
+		@rows = [*?A..?D]
 		@columns = [*1..4].map { |n| n.to_s }
 		@cells = cell_create
 	end
@@ -60,8 +60,13 @@ class Board
 			return true
 		else
 			return false
-		end	
+		end
 	end
 
+	def place(ship, coordinates)
+		coordinates.each do |coordinate|
+			@cells[coordinate].place_ship(ship)
+		end
+	end
 
 end
