@@ -48,12 +48,17 @@ class Board
 		row = first[0]
 		col = first[1].to_i
 		row_array = (row.."Z").to_a
-		final_row_array = row_array.slice!(0,ship.length)
+		final_row_array = row_array.slice(0,ship.length)
 		final_row_array.map! do |element|
 			element + col.to_s
 		end
-		
-		binding.pry
+		col_array = (col..(col + ship.length - 1)).to_a
+		final_col_array = col_array.map do |element|
+			row + element.to_s
+		end
+		if coordinates != (final_col_array || final_row_array)
+			return false
+		end	
 		return true
 	end
 
