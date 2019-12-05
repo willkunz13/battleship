@@ -13,21 +13,21 @@ class Board
 	def cell_create
 
 		rows = @rows
-                columns = @columns
-                board_array = []
+    columns = @columns
+    board_array = []
                 rows.each do |row|
                         columns.each do |column|
                                 board_array << row + column
                         end
                 end
 		holder_array = []
-		board_array.each.with_index do |coordinate, index|
-			holder_array << board_array[index] = Cell.new(coordinate)
-		end
+				board_array.each.with_index do |coordinate, index|
+					holder_array << board_array[index] = Cell.new(coordinate)
+				end
 		hash ={}
-		holder_array.each.with_index do |cell, index|
-			hash[holder_array[index].coordinate] = cell
-		end
+				holder_array.each.with_index do |cell, index|
+					hash[holder_array[index].coordinate] = cell
+				end
 		return hash
 	end
 
