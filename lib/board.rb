@@ -49,14 +49,13 @@ class Board
 	end
 	
 	def valid_vertical_generator(ship, coordinates)
-		range_of_possible_columns = (coordinates.first[1].to_i..(starter_column + ship.length - 1)).to_a
+		range_of_possible_columns = (coordinates.first[1].to_i..(coordinates.first[1].to_i + ship.length - 1)).to_a
 		valid_possible_vertical_coordinates = range_of_possible_columns.map do |coordinate_row|
-			starter_row + coordinate_row.to_s
+			coordinates.first[0] + coordinate_row.to_s
 		end
 		return valid_possible_vertical_coordinates	
 	end
 	def valid_placement?(ship, coordinates)
-		binding.pry
 		if ship.length != coordinates.count
 			return false
 		end
@@ -64,8 +63,7 @@ class Board
 			return false
 		end
 
-		if coordinates == valid_horizontal_generator(ship, coordinates) || coordinates == valid_horizontal_generator(ship, coordinates)
-			binding.pry
+		if (coordinates == valid_horizontal_generator(ship, coordinates)) ||  (coordinates == valid_vertical_generator(ship, coordinates))
 			return true
 		else
 			return false
