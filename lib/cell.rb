@@ -29,7 +29,7 @@ class Cell
 	end
 
 	def render(ship_check = false)
-		if ship_check == true
+		if ship_check == true && !empty?
 			return "S"
 		end
 		

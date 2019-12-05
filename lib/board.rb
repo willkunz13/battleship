@@ -83,4 +83,14 @@ class Board
 		return true
 	end
 
+	def render(true_board = false)
+		rendered_board = @cells.values.map do |cell|
+			cell.render(true_board)
+		end
+		@columns.each.with_index do |column, index|
+			rendered_board.insert(index, column)
+		end
+		rendered_board.each_slice!(@columns.count).to_a
+		binding.pry
+	end	
 end
