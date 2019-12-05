@@ -13,8 +13,8 @@ class Board
 	def cell_create
 
 		rows = @rows
-    columns = @columns
-    board_array = []
+    		columns = @columns
+    		board_array = []
                 rows.each do |row|
                         columns.each do |column|
                                 board_array << row + column
@@ -40,6 +40,21 @@ class Board
 			return false
 	end
 
+	def valid_horizontal_generator(ship, coordinates)
+		range_of_possible_rows = (coordinates.first[0].."Z").to_a
+		valid_possible_horizontal_coordinates = range_of_possible_rows.slice(0,ship.length).map! do |coordinate_column|
+			coordinate_column + coordinates.first[1]
+		end
+		return valid_possible_horizontal_coordinates
+	end
+	
+	def valid_vertical_generator(ship, coordinates)
+		range_of_possible_columns = (coordinates.first[1].to_i..(coordinates.first[1].to_i + ship.length - 1)).to_a
+		valid_possible_vertical_coordinates = range_of_possible_columns.map do |coordinate_row|
+			coordinates.first[0] + coordinate_row.to_s
+		end
+		return valid_possible_vertical_coordinates	
+	end
 	def valid_placement?(ship, coordinates)
 		if ship.length != coordinates.count
 			return false
@@ -48,19 +63,7 @@ class Board
 			return false
 		end
 
-		first = coordinates.first
-		row = first[0]
-		col = first[1].to_i
-		row_array = (row.."Z").to_a
-		final_row_array = row_array.slice(0,ship.length)
-		final_row_array.map! do |element|
-			element + col.to_s
-		end
-		col_array = (col..(col + ship.length - 1)).to_a
-		final_col_array = col_array.map do |element|
-			row + element.to_s
-		end
-		if coordinates == final_col_array || coordinates == final_row_array
+		if (coordinates == valid_horizontal_generator(ship, coordinates)) ||  (coordinates == valid_vertical_generator(ship, coordinates))
 			return true
 		else
 			return false
@@ -91,19 +94,12 @@ class Board
 		rendered_board = @cells.values.map do |cell|
 			cell.render(true_board)
 		end
-		rendered_board = rendered_board.each_slice(columns_temp.count).to_a
-		rows_temp.each.with_index do |row, index|
-			# binding.pry
-			rendered_board[index].unshift(row)
-		end
-		rendered_board.unshift(columns_temp.unshift("  "))
+
 		rendered_board.map! do |array|
 			array.join(" ")
 		end
 		rendered_board = rendered_board.join(" \n")
 		rendered_board[0] = ''
 		rendered_board =rendered_board + " \n"
-		# binding.pry
-		return rendered_board
-	end
+
 end
