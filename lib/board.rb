@@ -87,10 +87,17 @@ class Board
 		rendered_board = @cells.values.map do |cell|
 			cell.render(true_board)
 		end
-		@columns.each.with_index do |column, index|
-			rendered_board.insert(index, column)
+		rendered_board = rendered_board.each_slice(@columns.count).to_a
+		@rows.each.with_index do |row, index|
+			rendered_board[index].unshift(row)
 		end
-		rendered_board.each_slice!(@columns.count).to_a
+		rendered_board.unshift(@columns.unshift("  "))
+		rendered_board.map! do |array|
+			array.join(" ")
+		end
+		rendered_board = rendered_board.join(" \n")
+		rendered_board[0] = ''
+		rendered_board =rendered_board + " \n"
 		binding.pry
 	end	
 end
