@@ -75,9 +75,7 @@ class BoardTest < Minitest::Test
 	end
 
 	def test_board_can_render_and_show_ships
-
 		@board.place(@cruiser, ["A1", "A2", "A3"])
-		# assert_equal "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n" , @board.render(true)
 		assert_includes @board.render(true), "  1 2 3 4"
 		assert_includes @board.render(true), "A S S S "
 		assert_includes @board.render(true), "B . . . "
