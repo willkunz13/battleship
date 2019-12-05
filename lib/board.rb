@@ -87,21 +87,19 @@ class Board
 	end
 
 	def render(true_board = false)
+		# binding.pry
+		rows_temp = @rows.dup
+		columns_temp = @columns.dup
+		# rendered_board = nil
 		rendered_board = @cells.values.map do |cell|
 			cell.render(true_board)
 		end
-		rows_duplicate = @rows.dup
-		columns_duplicate = @columns.dup
-		rendered_board = rendered_board.each_slice(columns_duplicate.count).to_a
-		rows_duplicate.each.with_index do |row, index|
-			rendered_board[index].unshift(row)
-		end
-		rendered_board.unshift(columns_duplicate.unshift("  "))
+
 		rendered_board.map! do |array|
 			array.join(" ")
 		end
 		rendered_board = rendered_board.join(" \n")
 		rendered_board[0] = ''
 		rendered_board =rendered_board + " \n"
-	end	
+
 end
