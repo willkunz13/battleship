@@ -5,30 +5,33 @@ class Board
 	attr_reader :cells
 
 	def initialize
-		@rows = [*?A..?D]
-		@columns = [*1..4].map { |n| n.to_s }
+		@rows = []
+		@columns = []
 		@cells = cell_create
 	end
 
 	def cell_create
-
-		rows = @rows
-    		columns = @columns
-    		board_array = []
-                rows.each do |row|
-                        columns.each do |column|
-                                board_array << row + column
+		@rows = [*?A..?D]
+		@columns = [*1..4].map { |n| n.to_s }
+    		cells_array = []
+                @rows.each do |row|
+                       @columns.each do |column|
+                                cells_array << row + column
                         end
                 end
-		holder_array = []
-				board_array.each.with_index do |coordinate, index|
-					holder_array << board_array[index] = Cell.new(coordinate)
-				end
-		hash ={}
-				holder_array.each.with_index do |cell, index|
-					hash[holder_array[index].coordinate] = cell
-				end
-		return hash
+		create_hash_for_cells(cells_array)
+	end
+	
+	def create_hash_for_cells(cells_array)#fix
+		coordinate_names = []
+		cells_array.each.with_index do |coordinate, index|
+			coordinate_names << cells_array[index] = Cell.new(coordinate)
+		end
+		cell_mapping ={}
+		coordinate_names.each.with_index do |cell, index|
+			cell_mapping[coordinate_names[index].coordinate] = cell
+		end
+		return cell_mapping
 	end
 
 	def valid_coordinate?(check_coordinate)
@@ -42,7 +45,7 @@ class Board
 
 	def valid_horizontal_generator(ship, coordinates)
 		range_of_possible_rows = (coordinates.first[0].."Z").to_a
-		valid_possible_horizontal_coordinates = range_of_possible_rows.slice(0,ship.length).map! do |coordinate_column|
+		valid_possible_horizontal_coordinates = range_of_possible_rows.slice(0,ship.length).map do |coordinate_column|
 			coordinate_column + coordinates.first[1]
 		end
 		return valid_possible_horizontal_coordinates
@@ -55,6 +58,7 @@ class Board
 		end
 		return valid_possible_vertical_coordinates	
 	end
+
 	def valid_placement?(ship, coordinates)
 		if ship.length != coordinates.count
 			return false
@@ -90,18 +94,24 @@ class Board
 		rendered_board = @cells.values.map do |cell|
 			cell.render(true_board)
 		end
+		rendered_board_to_string(rendered_board_fill(rendered_board))
+	end	
+
+	def rendered_board_fill(rendered_board)
 		rows_duplicate = @rows.dup
 		columns_duplicate = @columns.dup
 		rendered_board = rendered_board.each_slice(columns_duplicate.count).to_a
 		rows_duplicate.each.with_index do |row, index|
 			rendered_board[index].unshift(row)
 		end
-		rendered_board.unshift(columns_duplicate.unshift("  "))
+		rendered_board.unshift(columns_duplicate.unshift(" "))
+	end
+
+	def rendered_board_to_string(rendered_board)
 		rendered_board.map! do |array|
 			array.join(" ")
 		end
 		rendered_board = rendered_board.join(" \n")
-		rendered_board[0] = ''
 		rendered_board =rendered_board + " \n"
-	end	
+	end
 end
