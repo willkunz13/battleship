@@ -29,10 +29,10 @@ class Cell
 	end
 
 	def render(ship_check = false)
-		if ship_check == true && !empty?
+		if ship_check == true && (!empty? &&(ship.sunk? == false))
 			return "S"
 		end
-		
+
 		if fired_upon? == true
 			if @ship != nil
 				if @ship.health == 0
