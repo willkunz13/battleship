@@ -100,7 +100,7 @@ class BoardTest < Minitest::Test
 		@board.cells["A2"].fire_upon
 		@board.cells["A3"].fire_upon
 		assert_includes @board.render, "  1 2 3 4"
-		assert_includes @board.render, "A X X X ."
+		assert_includes @board.render(true), "A X X X ."
 		assert_includes @board.render, "B . . . ."
 		assert_includes @board.render, "C . . . ."
 		assert_includes @board.render, "D . . . ."
