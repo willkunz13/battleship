@@ -26,10 +26,23 @@ class Play_PhaseTest < Minitest::Test
       refute(@player2_board.cells["A1"].fired_upon?)
       @p1_turn.place_shot
       assert(@player2_board.cells["A1"].fired_upon?)
+      assert_includes @player2_board.render, "A H . . ."
   #create test that passes if board has no ships left
   end
 
   def test_check_for_win_after_shot_is_placed
-
+    player1_turn = Play_phase.new(@player2_board, "A1")
+    player1_turn.place_shot
+    player1_turn = Play_phase.new(@player2_board, "A2")
+    player1_turn.place_shot
+    player1_turn = Play_phase.new(@player2_board, "A3")
+    player1_turn.place_shot
+    player1_turn = Play_phase.new(@player2_board, "B1")
+    player1_turn.place_shot
+    player1_turn = Play_phase.new(@player2_board, "B2")
+    player1_turn.place_shot
+    assert_includes @player2_board.render, "A X X X ."
+    assert_includes @player2_board.render, "B X X . ."
+    assert player1_turn.win_check
   end
 end

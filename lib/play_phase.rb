@@ -14,10 +14,19 @@ class Play_phase
 
   def place_shot
     @board.cells[shot].fire_upon
+    @board.render
   end
 
   def win_check
-    #use find enumerable to search true board for boat
-    #if B is found return false, else true
+      #I will need to change the cell class
+      #so that render(true) only returns S
+      #if the ship is not sunk
+      @board.render(true).each_char do |cell|
+        if cell == "S"
+          return false
+        else
+          return true
+        end
+      end
   end
 end
