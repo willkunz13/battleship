@@ -27,7 +27,7 @@ class Play_PhaseTest < Minitest::Test
       @p1_turn.place_shot
       assert(@player2_board.cells["A1"].fired_upon?)
       assert_includes @player2_board.render, "A H . . ."
-  #create test that passes if board has no ships left
+      refute @p1_turn.win_check
   end
 
   def test_check_for_win_after_shot_is_placed

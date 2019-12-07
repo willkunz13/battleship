@@ -14,18 +14,15 @@ class Play_phase
 
   def place_shot
     @board.cells[shot].fire_upon
+    # @board.win_check
     @board.render
+
   end
 
   def win_check
-      #I will need to change the cell class
-      #so that render(true) only returns S
-      #if the ship is not sunk
       @board.render(true).each_char do |cell|
         if cell == "S"
           return false
-        else
-          return true
         end
       end
   end
