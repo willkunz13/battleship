@@ -14,9 +14,8 @@ class Play_phase
 
   def place_shot
     @board.cells[shot].fire_upon
-    # @board.win_check
     @board.render
-
+    win_check
   end
 
   def win_check
