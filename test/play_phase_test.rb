@@ -19,12 +19,17 @@ class Play_PhaseTest < Minitest::Test
   end
 
   def test_play_phase_exists
-    # binding.pry
     assert_instance_of Play_phase, @p1_turn
   end
 
   def test_shot_can_be_placed_on_board
-      skip
+      refute(@player2_board.cells["A1"].fired_upon?)
+      @p1_turn.place_shot
+      assert(@player2_board.cells["A1"].fired_upon?)
   #create test that passes if board has no ships left
+  end
+
+  def test_check_for_win_after_shot_is_placed
+
   end
 end
