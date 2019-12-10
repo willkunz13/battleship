@@ -113,4 +113,13 @@ class Prompt
 		aloha
 	end
 
+	def board(board)
+		puts "==========Your Board=========="
+		board.render(true)
+	end
+
+	def enemy_board(board)
+		puts "=========Opponents Board========="
+		board.render
+	end
 end
