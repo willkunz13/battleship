@@ -34,6 +34,7 @@ class GameTest < Minitest::Test
   end
 
 def test_multiplayer_mode_can_be_selected
+  skip
   refute @game.multiplayer
   @game.player_choice
   assert @game.multiplayer

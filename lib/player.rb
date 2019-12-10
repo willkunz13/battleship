@@ -1,7 +1,6 @@
 class Player
 
-	attr_reader :board
-	attr_accessor :unplaced_ships
+	attr_accessor :unplaced_ships, :board
 
 	def initialize(ships, computer = false)
 		@unplaced_ships = ships
@@ -24,6 +23,16 @@ class Player
 		end
 	end
 
+	def auto_place
+			@unplaced_ships.each do |ship|
+				while orientation_option_generator(ship, random_cell = board.cells.keys.sample) == false
+					random_cell = board.cells.keys.sample
+				end
+					computer_placement_options = orientation_option_generator(ship, random_cell = board.cells.keys.sample)
+					board.place(ship, computer_placement_options.sample)
+			end
+			@unplaced_ships = []
+	end
 	def orientation_option_generator(ship, coordinate)
 		if board.valid_coordinate?(coordinate) == false
 			return "Not a valid coordinate"
@@ -41,21 +50,21 @@ class Player
 		return possible_directions
 	end
 
-	def take_turn(shot)
+	def take_turn(enemy_board, shot = "A1")
 		if computer? == true
-			random_cell = @board.cells.keys.sample
-					while @board.cells[random_cell].fired_upon? == true
-							random_cell = board.cells.keys.sample
+			random_cell = enemy_board.cells.keys.sample
+					while enemy_board.cells[random_cell].fired_upon? == true
+							random_cell = enemy_board.cells.keys.sample
 					end
 					shot = random_cell
 		end
-		@board.cells[shot].fire_upon
-    @board.render
-		win_check
+		enemy_board.cells[shot].fire_upon
+    enemy_board.render
+		win_check(enemy_board)
 	end
 
-	def win_check
-		 @board.render(true).each_char do |cell|
+	def win_check(enemy_board)
+		 enemy_board.render(true).each_char do |cell|
 		       if cell == "S"
 		          return false
 		       end
