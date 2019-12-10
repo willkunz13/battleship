@@ -113,13 +113,13 @@ class Prompt
 		aloha
 	end
 
-	def board(board)
-		puts "==========Your Board=========="
-		board.render(true)
+	def board(player)
+		puts "==========#{player.name}'s Board'=========="
+		puts player.board.render(true)
 	end
 
-	def enemy_board(board)
+	def enemy_board(player)
 		puts "=========Opponents Board========="
-		board.render
+		puts player.board.render
 	end
 end
