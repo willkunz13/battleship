@@ -36,27 +36,28 @@ class Prompt
 	end
 
 	def player_number
-		puts "Would you like to play single or multi player?"
-		puts "1: Single Player (Versus Computer)"
-		puts "2: Multi Player"
-		answer = gets.chomp
-		catch = 0
-		players = []
-		while catch == 0
-			if answer.to_i == 1
-				players << player_1
-				players << computer
-				catch += 1
-			elsif answer.to_i == 2
-				players << player_1
-				players << player_2
-				catch += 1
-			else
-				puts "Invalid input: Need 1 or 2"
-			end
-		end
-		return players
-	end
+        puts "Would you like to play single or multi player?"
+        puts "1: Single Player (Versus Computer)"
+        puts "2: Multi Player"
+        answer = gets.chomp
+        catch = 0
+        players = []
+        computers = []
+        while catch == 0
+            if answer.to_i == 1
+                players << "player_1"
+                computers << "computer"
+                catch += 1
+            elsif answer.to_i == 2
+                players << "player_1"
+                players << "player_2"
+                catch += 1
+            else
+                puts "Invalid input: Need 1 or 2"
+            end
+        end
+        return players << computers
+    end
 
 	def attack_location
 		puts "Enter the cell you would like to fire upon, then press enter (Example = A1)"
