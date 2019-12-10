@@ -25,11 +25,15 @@ class Player
 
 	def auto_place
 			@unplaced_ships.each do |ship|
-				while orientation_option_generator(ship, random_cell = board.cells.keys.sample) == false
+				true_test = false
+				while true_test != true
 					random_cell = board.cells.keys.sample
+					if orientation_option_generator(ship, random_cell = board.cells.keys.sample) != false
+							true_test = true
+					end
 				end
-					computer_placement_options = orientation_option_generator(ship, random_cell = board.cells.keys.sample)
-					board.place(ship, computer_placement_options.sample)
+				computer_placement_options = orientation_option_generator(ship, random_cell)
+				board.place(ship, computer_placement_options.sample)
 			end
 			@unplaced_ships = []
 	end
@@ -45,7 +49,7 @@ class Player
 			possible_directions << board.valid_vertical_generator(ship, coordinate)
 		end
 		if possible_directions == []
-			return "Not possible to place that ship here"
+			return false
 		end
 		return possible_directions
 	end
