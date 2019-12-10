@@ -4,6 +4,10 @@ require_relative '../lib/board'
 require 'pry'
 
 class Game
+attr_accessor :multiplayer
+def initialize()
+  @multiplayer = false
+end
 
 def welcome
   puts "Welcome to Battleship"
@@ -23,9 +27,12 @@ def welcome
   |                                                                   BE-1911 /
    \_________________________________________________________________________|
 
-Press Enter to Play
+ Type play then press enter to begin, or type quit to exit
   "
-  gets.chomp
+  want_to_play = gets.chomp.downcase
+    if want_to_play != "play".downcase
+      exit
+    end
 end
 
   def choose_shot(board)
@@ -44,26 +51,13 @@ end
     # board.render
   end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def player_choice
+  puts " How many people are playing, please enter 1 or 2"
+  players = gets.chomp
+  if players = (2 || "two")
+    @multiplayer = true
+  end
+end
 
 
 end

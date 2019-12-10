@@ -33,4 +33,10 @@ class GameTest < Minitest::Test
     assert @player1_board.render.include? ("M" || "H")
   end
 
+def test_multiplayer_mode_can_be_selected
+  refute @game.multiplayer
+  @game.player_choice
+  assert @game.multiplayer
+end
+
 end
