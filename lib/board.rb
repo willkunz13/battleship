@@ -68,14 +68,14 @@ class Board
 	end
 
 	def valid_placement?(ship, coordinates)
+		coordinate = coordinates.first
 		if ship.length != coordinates.count
 			return false
-		end
-		if overlap?(coordinates) == false
+		elsif overlap?(coordinates) == false
 			return false
-		end
-		coordinate = coordinates.first
-		if (coordinates == valid_horizontal_generator(ship, coordinates)) ||  (coordinates == valid_vertical_generator(ship, coordinate))
+		
+		elsif (coordinates == valid_horizontal_generator(ship, coordinates)) ||  (coordinates == valid_vertical_generator(ship, coordinate))
+
 			return true
 		else
 			return false
@@ -90,6 +90,7 @@ class Board
 
 	def overlap?(coordinates)
 		coordinates.each do |coordinate|
+			binding.pry
 			if @cells[coordinate].empty? == true
 			else
 				return false

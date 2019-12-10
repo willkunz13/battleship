@@ -14,10 +14,14 @@ class Game
 	end
 
 	def setup
+		@players = []
+		@board_size = 0
+		@ships = []
 		prompt.aloha
 		@board_size = prompt.board_size
 		@ships = prompt.ships
 		number_of_players = prompt.player_number
+		#binding.pry
 		number_of_players.first.each do |player|
 			@players << player = Player.new(player, @ships)
 		end
@@ -39,6 +43,7 @@ class Game
 					catch_bad_coordinates = 0
 					while catch_bad_coordinates == 0
 						coordinates = prompt.ship_location(ship)
+						binding.pry
 						if player.board.valid_placement?(ship, coordinates) == true
 							player.board.place(ship, coordinates)
 							player.unplaced_ships.delete(ship)
@@ -59,14 +64,16 @@ class Game
 		
 	end
 
+	public
 	def player_turns
-		win? = false
+		win = false
 		winner = ""
-		while win? != true
+		while win != true
 			@players.each.with_index do |player, index|
 				winner = player.name
 				if player.computer? == true
-					player.take_turn(@players[index - 1])
+					if player.take_turn(@players[index - 1]) == true
+					win = true
 				else
 					catch_bad_coordinate = 0
 					while catch_bad_coordinate != 0
@@ -75,7 +82,7 @@ class Game
 						coordinate = prompt.attack_location
 						if (player.board.valid_coordinate?(coordinate) == true) && (player.board.key[coordinate].fired_upon? == false)
 							if player.take_turn(@players[index - 1], coordinate) == true
-								win? = true
+								win = true
 							end
 							prompt.board(player)
 							prompt.enemy_board(@players[index - 1])
@@ -87,6 +94,7 @@ class Game
 				end
 			end
 		end
-	end
 	prompt.win_message(winner)
+	end
+
 end

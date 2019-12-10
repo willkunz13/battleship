@@ -24,38 +24,41 @@ class Prompt
     if want_to_play != "play".downcase
       exit
     end
-
+	end
 	def board_size
 		16
 	end
 
 	def ships
-		ships << @cruiser = Ship.new("Cruiser", 3)
-		ships << @submarine = Ship.new("Submarine", 2)
-		ships
+		ship_list = []
+		ship_list << @cruiser = Ship.new("Cruiser", 3)
+		ship_list << @submarine = Ship.new("Submarine", 2)
+		ship_list
 	end
 
 	def player_number
         puts "Would you like to play single or multi player?"
         puts "1: Single Player (Versus Computer)"
         puts "2: Multi Player"
-        answer = gets.chomp
         catch = 0
         players = []
+	human_players = []
         computers = []
         while catch == 0
+		 answer = gets.chomp
             if answer.to_i == 1
-                players << "player_1"
+                human_players << "player_1"
                 computers << "computer"
                 catch += 1
             elsif answer.to_i == 2
-                players << "player_1"
-                players << "player_2"
+                human_players << "player_1"
+                human_players << "player_2"
                 catch += 1
             else
                 puts "Invalid input: Need 1 or 2"
             end
         end
+	players << human_players
         return players << computers
     end
 
