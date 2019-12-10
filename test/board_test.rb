@@ -78,9 +78,9 @@ class BoardTest < Minitest::Test
 		@board.place(@cruiser, ["A1", "A2", "A3"])
 		assert_includes @board.render(true), "  1 2 3 4"
 		assert_includes @board.render(true), "A S S S "
-		assert_includes @board.render(true), "B . . . "
-		assert_includes @board.render(true), "C . . . "
-		assert_includes @board.render(true), "D . . ."
+		assert_includes @board.render(true), "B . . . ."
+		assert_includes @board.render(true), "C . . . ."
+		assert_includes @board.render(true), "D . . . ."
 	end
 
 	def test_board_can_render_hits_and_misses
@@ -88,10 +88,10 @@ class BoardTest < Minitest::Test
 		@board.cells["A1"].fire_upon
 		@board.cells["B1"].fire_upon
 		assert_includes @board.render, "  1 2 3 4"
-		assert_includes @board.render, "A H . . "
-		assert_includes @board.render, "B M . . "
-		assert_includes @board.render, "C . . . "
-		assert_includes @board.render, "D . . ."
+		assert_includes @board.render, "A H . . ."
+		assert_includes @board.render, "B M . . ."
+		assert_includes @board.render, "C . . . ."
+		assert_includes @board.render, "D . . . ."
 	end
 
 	def test_board_can_render_sunk_ships
@@ -100,9 +100,9 @@ class BoardTest < Minitest::Test
 		@board.cells["A2"].fire_upon
 		@board.cells["A3"].fire_upon
 		assert_includes @board.render, "  1 2 3 4"
-		assert_includes @board.render, "A X X X "
-		assert_includes @board.render, "B . . . "
-		assert_includes @board.render, "C . . . "
-		assert_includes @board.render, "D . . ."
+		assert_includes @board.render(true), "A X X X ."
+		assert_includes @board.render, "B . . . ."
+		assert_includes @board.render, "C . . . ."
+		assert_includes @board.render, "D . . . ."
 	end
 end
