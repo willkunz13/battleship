@@ -1,11 +1,12 @@
 class Player
 
-	attr_accessor :unplaced_ships, :board
+	attr_accessor :unplaced_ships, :board, :name
 
-	def initialize(ships, computer = false)
+	def initialize(name, ships, computer = false,)
 		@unplaced_ships = ships
 		@board = []
 		@computer = computer
+		@name = name
 	end
 
 	def computer?
