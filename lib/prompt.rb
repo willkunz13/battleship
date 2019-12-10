@@ -107,4 +107,10 @@ class Prompt
 		"Invalid coordinates, please try again"
 	end
 
+	def win_message(player)
+		puts "Conrgradulations #{player.name} you win"
+		puts "Would you like to play again?"
+		aloha
+	end
+
 end
