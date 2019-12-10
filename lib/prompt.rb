@@ -61,6 +61,7 @@ class Prompt
 
 	def attack_location
 		puts "Enter the cell you would like to fire upon, then press enter (Example = A1)"
+		puts "Remeber to only enter a cell that has already not been fired upon"
 		attack_location = gets.chomp.upcase
 		while attack_location.length != 2
 			puts "Invalid shot, only enter a letter and number with no spaces"
@@ -107,8 +108,12 @@ class Prompt
 		"Invalid coordinates, please try again"
 	end
 
+def invalid_attack
+	"That was an invlid shot, please try again"
+end
+
 	def win_message(player)
-		puts "Conrgradulations #{player.name} you win"
+		puts "Conrgradulations #{player} you win"
 		puts "Would you like to play again?"
 		aloha
 	end
