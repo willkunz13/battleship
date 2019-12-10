@@ -37,14 +37,14 @@ class Player
 		if board.valid_coordinate?(coordinate) == false
 			return "Not a valid coordinate"
 		end
-		possible_directions = {}
+		possible_directions = []
 		if board.valid_horizontal_generator(ship, coordinate) != false
-			possible_directions["Right"] = board.valid_horizontal_generator(ship, coordinate)
+			possible_directions << board.valid_horizontal_generator(ship, coordinate)
 		end
 		if board.valid_vertical_generator(ship, coordinate) != false
-			possible_directions["Down"] = board.valid_vertical_generator(ship, coordinate)
+			possible_directions << board.valid_vertical_generator(ship, coordinate)
 		end
-		if possible_directions == {}
+		if possible_directions == []
 			return "Not possible to place that ship here"
 		end
 		return possible_directions

@@ -21,7 +21,7 @@ class Board
                 end
 		create_hash_for_cells(cells_array)
 	end
-	
+
 	def create_hash_for_cells(cells_array)#fix
 		coordinate_names = []
 		cells_array.each.with_index do |coordinate, index|
@@ -44,9 +44,9 @@ class Board
 	end
 
 	def valid_horizontal_generator(ship, coordinate)
-		range_of_possible_rows = (coordinate.[0].."Z").to_a
+		range_of_possible_rows = (coordinate[0].."Z").to_a
 		valid_possible_horizontal_coordinates = range_of_possible_rows.slice(0,ship.length).map do |coordinate_column|
-			coordinate_column + coordinate.[1]
+			coordinate_column + coordinate[1]
 		end
 		if valid_possible_horizontal_coordinates - cells.keys == []
 			return valid_possible_horizontal_coordinates
@@ -54,7 +54,7 @@ class Board
 			return false
 		end
 	end
-	
+
 	def valid_vertical_generator(ship, coordinate)
 		range_of_possible_columns = (coordinate[1].to_i..(coordinate[1].to_i + ship.length - 1)).to_a
 		valid_possible_vertical_coordinates = range_of_possible_columns.map do |coordinate_row|
@@ -103,13 +103,13 @@ class Board
 			cell.render(true_board)
 		end
 		rendered_board_to_string(rendered_board_fill(rendered_board))
-	end	
+	end
 
 	def rendered_board_fill(rendered_board)
 		rows_duplicate = @rows.dup
 		columns_duplicate = @columns.dup
 		rendered_board = rendered_board.each_slice(columns_duplicate.count).to_a
-		rows_dupliacate.each.with_index do |row, index|
+		rows_duplicate.each.with_index do |row, index|
 			rendered_board[index].unshift(row)
 		end
 		rendered_board.unshift(columns_duplicate.unshift(" "))

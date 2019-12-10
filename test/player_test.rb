@@ -61,6 +61,7 @@ class PlayerTest < Minitest::Test
 		@computer.make_board
 		# binding.pry
 		@computer.auto_place
+		assert_includes @computer.board.render(true), "S"
 		binding.pry
 	end
 end
