@@ -43,20 +43,28 @@ class Board
 			return false
 	end
 
-	def valid_horizontal_generator(ship, coordinates)
-		range_of_possible_rows = (coordinates.first[0].."Z").to_a
+	def valid_horizontal_generator(ship, coordinate)
+		range_of_possible_rows = (coordinate.[0].."Z").to_a
 		valid_possible_horizontal_coordinates = range_of_possible_rows.slice(0,ship.length).map do |coordinate_column|
-			coordinate_column + coordinates.first[1]
+			coordinate_column + coordinate.[1]
 		end
-		return valid_possible_horizontal_coordinates
+		if valid_possible_horizontal_coordinates - cells.keys == []
+			return valid_possible_horizontal_coordinates
+		else
+			return false
+		end
 	end
 	
-	def valid_vertical_generator(ship, coordinates)
-		range_of_possible_columns = (coordinates.first[1].to_i..(coordinates.first[1].to_i + ship.length - 1)).to_a
+	def valid_vertical_generator(ship, coordinate)
+		range_of_possible_columns = (coordinate[1].to_i..(coordinate[1].to_i + ship.length - 1)).to_a
 		valid_possible_vertical_coordinates = range_of_possible_columns.map do |coordinate_row|
-			coordinates.first[0] + coordinate_row.to_s
+			coordinate[0] + coordinate_row.to_s
 		end
-		return valid_possible_vertical_coordinates	
+		if valid_possible_vertical_coordinates - cells.keys == []
+			return valid_possible_vertical_coordinates
+		else
+			return false
+		end
 	end
 
 	def valid_placement?(ship, coordinates)
@@ -66,8 +74,8 @@ class Board
 		if overlap?(coordinates) == false
 			return false
 		end
-
-		if (coordinates == valid_horizontal_generator(ship, coordinates)) ||  (coordinates == valid_vertical_generator(ship, coordinates))
+		coordinate = coordinates.first
+		if (coordinates == valid_horizontal_generator(ship, coordinates)) ||  (coordinates == valid_vertical_generator(ship, coordinate))
 			return true
 		else
 			return false
@@ -101,7 +109,7 @@ class Board
 		rows_duplicate = @rows.dup
 		columns_duplicate = @columns.dup
 		rendered_board = rendered_board.each_slice(columns_duplicate.count).to_a
-		rows_duplicate.each.with_index do |row, index|
+		rows_dupliacate.each.with_index do |row, index|
 			rendered_board[index].unshift(row)
 		end
 		rendered_board.unshift(columns_duplicate.unshift(" "))
