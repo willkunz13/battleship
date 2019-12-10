@@ -60,8 +60,33 @@ class Game
 	end
 
 	def player_turns
+		win? = false
+		winner = ""
 		while win? != true
-			player_1.take_turn(computer.board, prompt.attack_loaction)
-
-
+			@players.each.with_index do |player, index|
+				winner = player.name
+				if player.computer? == true
+					player.take_turn(@players[index - 1])
+				else
+					catch_bad_coordinate = 0
+					while catch_bad_coordinate != 0
+						prompt.board(player)
+						prompt.enemy_board(@players[index - 1])
+						coordinate = prompt.attack_location
+						if (player.board.valid_coordinate?(coordinate) == true) && (player.board.key[coordinate].fired_upon? == false)
+							if player.take_turn(@players[index - 1], coordinate) == true
+								win? = true
+							end
+							prompt.board(player)
+							prompt.enemy_board(@players[index - 1])
+							catch_bad_coordinate = 1
+						else
+							prompt.invalid_attack
+						end
+					end
+				end
+			end
+		end
+	end
+	prompt.win_message(winner)
 end
