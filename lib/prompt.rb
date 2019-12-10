@@ -56,7 +56,54 @@ class Prompt
 			end
 		end
 		return players
-		
-	end		
-end
+	end
 
+	def attack_location
+		puts "Enter the cell you would like to fire upon, then press enter (Example = A1)"
+		attack_location = gets.chomp.upcase
+		while attack_location.length != 2
+			puts "Invalid shot, only enter a letter and number with no spaces"
+			attack_location = gets.chomp.upcase
+		end
+		return attack_location
+	end
+
+	def ship_location(ship)
+		#need to use if's based on the ship length
+		puts "Enter the coordinatesc where you would like your #{ship.name} to be"
+		puts "Ships will be placed from left to right, or top to bottom"
+		puts "Example: Cruiser fills 3 cells, valid locations could be"
+		puts "A1 A2 A3, or A2 B2 C2"
+		coordinates = []
+		if ship.length == 2
+			puts "Enter the first cell for the ship"
+			coordinates << gets.chomp.upcase
+			puts "Enter the second cell, the first cell was #{coordinates}"
+			coordinates << gets.chomp.upcase
+		end
+		if ship.length == 3
+			puts "Enter the first cell for the ship"
+			coordinates << gets.chomp.upcase
+			puts "Enter the second cell, the first cell was #{coordinates}"
+			coordinates << gets.chomp.upcase
+			puts "Enter the third cell, the first two cells are #{coordinates}"
+			coordinates << gets.chomp.upcase
+		end
+		return coordinates
+	end
+
+	def what_ship(ships)
+		puts "Your available ships are "
+		ships.each.with_index(1) do |ship, index|
+			puts "#{index}. #{ship.name} which takes up #{ship.length} spaces"
+		end
+			puts "What ship would you like to place first, enter 1 or 2"
+			selected_ship = gets.chomp.to_i
+			ships[selected_ship - 1]
+	end
+
+	def invalid_ship_coordinates
+		"Invalid coordinates, please try again"
+	end
+
+end
