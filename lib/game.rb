@@ -4,60 +4,64 @@ require_relative '../lib/board'
 require 'pry'
 
 class Game
-attr_accessor :multiplayer
-def initialize()
-  @multiplayer = false
-end
+	attr_accessor :multiplayer, :prompt
 
-def welcome
-  puts "Welcome to Battleship"
-  puts "
+	def initialize()
+  		@players = []
+		@prompt = Prompt.new
+		@board_size = 0
+		@ships = []
+	end
 
-                                       |__
-                                       |\/
-                                       ---
-                                       / | [
-                                !      | |||
-                              _/|     _/|-++'
-                          +  +--|    |--|--|_ |-
-                       { /|__|  |/\__|  |--- |||__/
-                      +---------------___[}-_===_.'____                 /\
-                  ____`-' ||___-{]_| _[}-  |     |_[___\==--            \/   _
-   __..._____--==/___]_|__|_____________________________[___\==--____,------' .7
-  |                                                                   BE-1911 /
-   \_________________________________________________________________________|
+	def setup
+		prompt.aloha
+		@board_size = prompt.board_size
+		@ships = prompt.ships
+		number_of_players = prompt.player_number
+		number_of_players.first.each do |player|
+			@players << player = Player.new(player, @ships)
+		end
+		number_of_players.last.each do |computer|
+			@players << computer = Player.new(computer, @ships, true)
+		end
+		@players.each do |player|
+			player.make_board
+		end
+	end
+	
+	def placements
+		@players.each do |player|
+			if player.computer? == true
+				player.auto_place
+			else
+				while player.unplaced_ships != []
+					ship = prompt.what_ship(player.unplaced_ships)
+					catch_bad_coordinates = 0
+					while catch_bad_coordinates == 0
+						coordinates = prompt.ship_location(ship)
+						if player.board.valid_placement?(ship, coordinates) == true
+							player.board.place(ship, coordinates)
+							player.unplaced_ships.delete(ship)
+							catch_bad_coordinates += 1
+						else
+							prompt.invalid_ship_coordinates
+						end
+					end
+				end
+			end
+		end
+	end
 
- Type play then press enter to begin, or type quit to exit
-  "
-  want_to_play = gets.chomp.downcase
-    if want_to_play != "play".downcase
-      exit
-    end
-end
+						
+						
+		
+		
+		
+	end
 
-  def choose_shot(board)
-  #This is where we will pass in the board the
-  #cpu is guessing on, and pick its next guess
-  #this will
-  #probably iteratin through the hash, finding a cell
-  #that has not been fired upon
-  random_cell = board.cells.keys.sample
-      while board.cells[random_cell].fired_upon? == true
-          random_cell = board.cells.keys.sample
-      end
-    # binding.pry
-   #this places the random cell shot on the board
-    board.cells[random_cell].fire_upon
-    # board.render
-  end
-
-def player_choice
-  puts " How many people are playing, please enter 1 or 2"
-  players = gets.chomp
-  if players = (2 || "two")
-    @multiplayer = true
-  end
-end
+	def player_turns
+		while win? != true
+			player_1.take_turn(computer.board, prompt.attack_loaction)
 
 
 end
