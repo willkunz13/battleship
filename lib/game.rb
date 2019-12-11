@@ -11,43 +11,49 @@ class Game
 		@prompt = Prompt.new
 		@board_size = 0
 		@ships = []
+		# @ships2 =[]
 	end
 
 	def setup
 		@players = []
 		@board_size = 0
 		@ships = []
+		# @ships2 =[]
 		prompt.aloha
 		@board_size = prompt.board_size
 		ships1 = prompt.ships
-		ships2 = ships1.dup
+		ships2 = prompt.ships2
 		@ships << ships1
 		@ships << ships2
 		number_of_players = prompt.player_number
 		true_index = 0
-		number_of_players.first.each.with_index do |player, index|
-			binding.pry
-			@players << player = Player.new(player, @ships[index + true_index])
+		# binding.pry
+		number_of_players.each.with_index do |player, index|
+			# binding.pry
+			@players << player = Player.new(player, @ships[index] + [true_index])
+			# binding.pry
 			true_index += 1
 		end
-		number_of_players.last.each do |computer|
-			binding.pry
-			@players << computer = Player.new(computer, @ships[true_index])
-			true_index += 1
-		end	
+		# number_of_players.last.each do |computer|
+		# 	# binding.pry
+		# 	@players << computer = Player.new(computer, @ships[true_index])
+		# 	true_index += 1
+		# end
 		@players.each do |player|
-			binding.pry
+			# binding.pry
 			player.make_board
 		end
 	end
-	
+
 	def placements
 		@players.each do |player|
 			if player.computer? == true
 				player.auto_place
 			else
 				while player.unplaced_ships != []
-					binding.pry
+					if player.unplaced_ships.count > 2
+						player.unplaced_ships.pop
+					end
 					ship = prompt.what_ship(player.unplaced_ships)
 					catch_bad_coordinates = 0
 					while catch_bad_coordinates == 0
@@ -57,7 +63,8 @@ class Game
 							player.unplaced_ships.delete(ship)
 							catch_bad_coordinates += 1
 						else
-							qprompt.invalid_ship_coordinates
+							#q
+							prompt.invalid_ship_coordinates
 						end
 					end
 				end
@@ -65,11 +72,11 @@ class Game
 		end
 	end
 
-						
-						
-		
-		
-		
+
+
+
+
+
 
 
 	public
