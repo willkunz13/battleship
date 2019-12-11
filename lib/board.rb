@@ -48,10 +48,12 @@ class Board
 		valid_possible_horizontal_coordinates = range_of_possible_rows.slice(0,ship.length).map do |coordinate_column|
 			coordinate_column + coordinate[1]
 		end
-		if valid_possible_horizontal_coordinates - cells.keys == []
-			return valid_possible_horizontal_coordinates
-		else
-			return false
+		valid_possible_horizontal_coordinates.each do |coordinate|
+			if cells.keys.include?(coordinate) == false
+				return false
+			else
+				return valid_possible_horizontal_coordinates
+			end
 		end
 	end
 
@@ -68,14 +70,18 @@ class Board
 	end
 
 	def valid_placement?(ship, coordinates)
-		if ship.length != coordinates.count
-			return false
-		end
-		if overlap?(coordinates) == false
-			return false
-		end
 		coordinate = coordinates.first
-		if (coordinates == valid_horizontal_generator(ship, coordinates)) ||  (coordinates == valid_vertical_generator(ship, coordinate))
+		coordinates.each do |coordinate|
+			if @cells.keys.include?(coordinate) == false
+				return false
+			end
+		end
+		if ship.length != coordinates.count
+			return false			
+		elsif overlap?(coordinates) == true
+			return false
+		
+		elsif (coordinates == valid_horizontal_generator(ship, coordinate)) ||  (coordinates == valid_vertical_generator(ship, coordinate))
 			return true
 		else
 			return false
@@ -91,11 +97,11 @@ class Board
 	def overlap?(coordinates)
 		coordinates.each do |coordinate|
 			if @cells[coordinate].empty? == true
-			else
 				return false
+			else
+				return true
 			end
 		end
-		return true
 	end
 
 	def render(true_board = false)
