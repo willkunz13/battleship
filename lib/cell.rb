@@ -28,22 +28,32 @@ class Cell
 
 	end
 
-	def render(ship_check = false)
-		if ship_check == true && (!empty? &&(ship.sunk? == false))
-			return "S"
-		end
-
-		if fired_upon? == true
-			if @ship != nil
-				if @ship.health == 0
-					return "X"
+	def render(truth = false)
+		if truth == true 
+			if empty?
+				if fired_upon?
+					return "M"
 				else
-					return "H"
+					return "."
 				end
+			elsif @ship.health == 0
+				return "X"
+			elsif fired_upon?
+				return "H"
 			else
-				return "M"
+				return "S"
 			end
-		end
-		return "."
+		elsif fired_upon?
+			if empty?
+				return "M"
+			elsif @ship.health == 0
+				return "X"
+			else
+				return "H"
+			end 
+		else
+			return "."
+
+		end	
 	end
 end

@@ -52,8 +52,8 @@ class Board
 			if cells.keys.include?(coordinate) == false
 				return false
 			else
-				return valid_possible_horizontal_coordinates
 			end
+		return valid_possible_horizontal_coordinates
 		end
 	end
 

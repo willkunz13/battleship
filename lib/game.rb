@@ -19,18 +19,24 @@ class Game
 		@ships = []
 		prompt.aloha
 		@board_size = prompt.board_size
-		@ships_need_dup = prompt.ships
-		more_ships = @ships_need_dup.dup
-		@ships << @ships_need_dup
-		@ships << more_ships
+		ships1 = prompt.ships
+		ships2 = ships1.dup
+		@ships << ships1
+		@ships << ships2
 		number_of_players = prompt.player_number
+		true_index = 0
 		number_of_players.first.each.with_index do |player, index|
-			@players << player = Player.new(player, @ships[index])
+			binding.pry
+			@players << player = Player.new(player, @ships[index + true_index])
+			true_index += 1
 		end
 		number_of_players.last.each do |computer|
-			@players << computer = Player.new(computer, @ships[1], true)
+			binding.pry
+			@players << computer = Player.new(computer, @ships[true_index])
+			true_index += 1
 		end	
 		@players.each do |player|
+			binding.pry
 			player.make_board
 		end
 	end
@@ -41,6 +47,7 @@ class Game
 				player.auto_place
 			else
 				while player.unplaced_ships != []
+					binding.pry
 					ship = prompt.what_ship(player.unplaced_ships)
 					catch_bad_coordinates = 0
 					while catch_bad_coordinates == 0
@@ -50,7 +57,7 @@ class Game
 							player.unplaced_ships.delete(ship)
 							catch_bad_coordinates += 1
 						else
-							prompt.invalid_ship_coordinates
+							qprompt.invalid_ship_coordinates
 						end
 					end
 				end
