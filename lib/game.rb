@@ -19,15 +19,17 @@ class Game
 		@ships = []
 		prompt.aloha
 		@board_size = prompt.board_size
-		@ships = prompt.ships
+		@ships_need_dup = prompt.ships
+		more_ships = @ships_need_dup.dup
+		@ships << @ships_need_dup
+		@ships << more_ships
 		number_of_players = prompt.player_number
-		#binding.pry
-		number_of_players.first.each do |player|
-			@players << player = Player.new(player, @ships)
+		number_of_players.first.each.with_index do |player, index|
+			@players << player = Player.new(player, @ships[index])
 		end
 		number_of_players.last.each do |computer|
-			@players << computer = Player.new(computer, @ships, true)
-		end
+			@players << computer = Player.new(computer, @ships[1], true)
+		end	
 		@players.each do |player|
 			player.make_board
 		end
@@ -43,7 +45,6 @@ class Game
 					catch_bad_coordinates = 0
 					while catch_bad_coordinates == 0
 						coordinates = prompt.ship_location(ship)
-						binding.pry
 						if player.board.valid_placement?(ship, coordinates) == true
 							player.board.place(ship, coordinates)
 							player.unplaced_ships.delete(ship)
@@ -62,7 +63,7 @@ class Game
 		
 		
 		
-	end
+
 
 	public
 	def player_turns
@@ -72,18 +73,15 @@ class Game
 			@players.each.with_index do |player, index|
 				winner = player.name
 				if player.computer? == true
-					if player.take_turn(@players[index - 1]) == true
-					win = true
+					win = player.take_turn(@players[index - 1].board)
 				else
 					catch_bad_coordinate = 0
-					while catch_bad_coordinate != 0
+					while catch_bad_coordinate == 0
 						prompt.board(player)
 						prompt.enemy_board(@players[index - 1])
 						coordinate = prompt.attack_location
-						if (player.board.valid_coordinate?(coordinate) == true) && (player.board.key[coordinate].fired_upon? == false)
-							if player.take_turn(@players[index - 1], coordinate) == true
-								win = true
-							end
+						if (player.board.valid_coordinate?(coordinate)) && (!@players[index -1].board.cells[coordinate].fired_upon?)
+							win = player.take_turn(@players[index - 1].board, coordinate)
 							prompt.board(player)
 							prompt.enemy_board(@players[index - 1])
 							catch_bad_coordinate = 1
