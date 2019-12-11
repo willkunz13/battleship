@@ -74,8 +74,8 @@ class Prompt
 	end
 
 	def ship_location(ship)
-		#need to use if's based on the ship length
-		puts "Enter the coordinatesc where you would like your #{ship.name} to be"
+		puts "\n\n  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
+		puts "\nEnter the coordinates where you would like your #{ship.name} to be"
 		puts "Ships will be placed from left to right, or top to bottom"
 		puts "Example: Cruiser fills 3 cells, valid locations could be"
 		puts "A1 A2 A3, or A2 B2 C2"
@@ -98,6 +98,7 @@ class Prompt
 	end
 
 	def what_ship(ships)
+		puts "\n\n"
 		puts "Your available ships are "
 		ships.each.with_index(1) do |ship, index|
 			puts "#{index}. #{ship.name} which takes up #{ship.length} spaces"
@@ -122,6 +123,7 @@ end
 	end
 
 	def board(player)
+		puts "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
 		puts "==========#{player.name}'s Board'=========="
 		puts player.board.render(true)
 	end
