@@ -79,6 +79,7 @@ class Player
 		          return false
 		       end
 		 end
+		 
 		 return true
  	end
 
