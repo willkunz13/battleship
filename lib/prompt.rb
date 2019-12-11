@@ -33,7 +33,16 @@ class Prompt
 		ship_list = []
 		ship_list << @cruiser = Ship.new("Cruiser", 3)
 		ship_list << @submarine = Ship.new("Submarine", 2)
+
+		#add 2 different ships here
 		ship_list
+	end
+
+	def ships2
+		ship_list2 = []
+		ship_list2 << @cruiser2 = Ship.new("Cruiser", 3)
+		ship_list2 << @submarine2 = Ship.new("Submarine", 2)
+		ship_list2
 	end
 
 	def player_number
@@ -58,8 +67,13 @@ class Prompt
                 puts "Invalid input: Need 1 or 2"
             end
         end
-	players << human_players
-        return players << computers
+
+			if computers.count > 0
+				  players << computers
+					return players
+			end
+	# binding.pry
+				return human_players
     end
 
 	def attack_location

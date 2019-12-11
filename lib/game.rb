@@ -11,36 +11,49 @@ class Game
 		@prompt = Prompt.new
 		@board_size = 0
 		@ships = []
+		# @ships2 =[]
 	end
 
 	def setup
 		@players = []
 		@board_size = 0
 		@ships = []
+		# @ships2 =[]
 		prompt.aloha
 		@board_size = prompt.board_size
-		@ships_need_dup = prompt.ships
-		more_ships = @ships_need_dup.dup
-		@ships << @ships_need_dup
-		@ships << more_ships
+		ships1 = prompt.ships
+		ships2 = prompt.ships2
+		@ships << ships1
+		@ships << ships2
 		number_of_players = prompt.player_number
-		number_of_players.first.each.with_index do |player, index|
-			@players << player = Player.new(player, @ships[index])
+		true_index = 0
+		# binding.pry
+		number_of_players.each.with_index do |player, index|
+			# binding.pry
+			@players << player = Player.new(player, @ships[index] + [true_index])
+			# binding.pry
+			true_index += 1
 		end
-		number_of_players.last.each do |computer|
-			@players << computer = Player.new(computer, @ships[1], true)
-		end	
+		# number_of_players.last.each do |computer|
+		# 	# binding.pry
+		# 	@players << computer = Player.new(computer, @ships[true_index])
+		# 	true_index += 1
+		# end
 		@players.each do |player|
+			# binding.pry
 			player.make_board
 		end
 	end
-	
+
 	def placements
 		@players.each do |player|
 			if player.computer? == true
 				player.auto_place
 			else
 				while player.unplaced_ships != []
+					if player.unplaced_ships.count > 2
+						player.unplaced_ships.pop
+					end
 					ship = prompt.what_ship(player.unplaced_ships)
 					catch_bad_coordinates = 0
 					while catch_bad_coordinates == 0
@@ -50,6 +63,7 @@ class Game
 							player.unplaced_ships.delete(ship)
 							catch_bad_coordinates += 1
 						else
+							#q
 							prompt.invalid_ship_coordinates
 						end
 					end
@@ -58,22 +72,30 @@ class Game
 		end
 	end
 
-						
-						
-		
-		
-		
+
+
+
+
+
 
 
 	public
 	def player_turns
 		win = false
 		winner = ""
-		while win != true
+		until win == true
 			@players.each.with_index do |player, index|
+				if player.win_check(@players[index - 1].board)
+					win = true
+					break
+				end
 				winner = player.name
 				if player.computer? == true
-					win = player.take_turn(@players[index - 1].board)
+					player.take_turn(@players[index - 1].board)
+					if player.win_check(@players[index - 1].board)
+						win = true
+						break
+					end
 				else
 					catch_bad_coordinate = 0
 					while catch_bad_coordinate == 0
@@ -81,7 +103,7 @@ class Game
 						prompt.enemy_board(@players[index - 1])
 						coordinate = prompt.attack_location
 						if (player.board.valid_coordinate?(coordinate)) && (!@players[index -1].board.cells[coordinate].fired_upon?)
-							win = player.take_turn(@players[index - 1].board, coordinate)
+							player.take_turn(@players[index - 1].board, coordinate)
 							prompt.board(player)
 							prompt.enemy_board(@players[index - 1])
 							catch_bad_coordinate = 1

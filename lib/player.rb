@@ -27,26 +27,29 @@ class Player
 	def auto_place
 		@unplaced_ships.each do |ship|
 			true_test = false
+			holder = nil
 			while true_test != true
 				random_cell = board.cells.keys.sample
-				if orientation_option_generator(ship, random_cell = board.cells.keys.sample) != false
+				if orientation_option_generator(ship, random_cell) != false
+						holder = random_cell
 						true_test = true
 				end
 			end
-			computer_placement_options = orientation_option_generator(ship, random_cell)
+			computer_placement_options = orientation_option_generator(ship, holder)
 			board.place(ship, computer_placement_options.sample)
 		end
 		@unplaced_ships = []
 	end
 	def orientation_option_generator(ship, coordinate)
 		if board.valid_coordinate?(coordinate) == false
-			return "Not a valid coordinate"
+			return false
 		end
 		possible_directions = []
 		if board.valid_horizontal_generator(ship, coordinate) != false
 			possible_directions << board.valid_horizontal_generator(ship, coordinate)
 		end
 		if board.valid_vertical_generator(ship, coordinate) != false
+			binding.pry
 			possible_directions << board.valid_vertical_generator(ship, coordinate)
 		end
 		if possible_directions == []
@@ -76,6 +79,7 @@ class Player
 		          return false
 		       end
 		 end
+		 
 		 return true
  	end
 
