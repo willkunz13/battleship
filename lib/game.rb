@@ -85,6 +85,10 @@ class Game
 		winner = ""
 		until win == true
 			@players.each.with_index do |player, index|
+				if player.win_check(@players[index - 1].board)
+					win = true
+					break
+				end
 				winner = player.name
 				if player.computer? == true
 					player.take_turn(@players[index - 1].board)
@@ -100,10 +104,6 @@ class Game
 						coordinate = prompt.attack_location
 						if (player.board.valid_coordinate?(coordinate)) && (!@players[index -1].board.cells[coordinate].fired_upon?)
 							player.take_turn(@players[index - 1].board, coordinate)
-							if player.win_check(@players[index - 1].board)
-								win = true
-								break
-							end
 							prompt.board(player)
 							prompt.enemy_board(@players[index - 1])
 							catch_bad_coordinate = 1
