@@ -24,38 +24,41 @@ class Prompt
     if want_to_play != "play".downcase
       exit
     end
-
+	end
 	def board_size
 		16
 	end
 
 	def ships
-		ships << @cruiser = Ship.new("Cruiser", 3)
-		ships << @submarine = Ship.new("Submarine", 2)
-		ships
+		ship_list = []
+		ship_list << @cruiser = Ship.new("Cruiser", 3)
+		ship_list << @submarine = Ship.new("Submarine", 2)
+		ship_list
 	end
 
 	def player_number
         puts "Would you like to play single or multi player?"
         puts "1: Single Player (Versus Computer)"
         puts "2: Multi Player"
-        answer = gets.chomp
         catch = 0
         players = []
+	human_players = []
         computers = []
         while catch == 0
+		 answer = gets.chomp
             if answer.to_i == 1
-                players << "player_1"
+                human_players << "player_1"
                 computers << "computer"
                 catch += 1
             elsif answer.to_i == 2
-                players << "player_1"
-                players << "player_2"
+                human_players << "player_1"
+                human_players << "player_2"
                 catch += 1
             else
                 puts "Invalid input: Need 1 or 2"
             end
         end
+	players << human_players
         return players << computers
     end
 
@@ -71,8 +74,8 @@ class Prompt
 	end
 
 	def ship_location(ship)
-		#need to use if's based on the ship length
-		puts "Enter the coordinatesc where you would like your #{ship.name} to be"
+		puts "\n\n  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
+		puts "\nEnter the coordinates where you would like your #{ship.name} to be"
 		puts "Ships will be placed from left to right, or top to bottom"
 		puts "Example: Cruiser fills 3 cells, valid locations could be"
 		puts "A1 A2 A3, or A2 B2 C2"
@@ -95,6 +98,7 @@ class Prompt
 	end
 
 	def what_ship(ships)
+		puts "\n\n"
 		puts "Your available ships are "
 		ships.each.with_index(1) do |ship, index|
 			puts "#{index}. #{ship.name} which takes up #{ship.length} spaces"
@@ -119,6 +123,7 @@ end
 	end
 
 	def board(player)
+		puts "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
 		puts "==========#{player.name}'s Board'=========="
 		puts player.board.render(true)
 	end
