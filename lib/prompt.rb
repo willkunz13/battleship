@@ -137,7 +137,7 @@ end
 	end
 
 	def board(player)
-		puts "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+		puts "\n\n\n\n\n\n"
 		puts "==========#{player.name}'s Board'=========="
 		puts player.board.render(true)
 	end
