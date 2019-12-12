@@ -68,7 +68,12 @@ class Player
 			return win_check(enemy_board)
 		else
 			enemy_board.cells[shot].fire_upon
-    			enemy_board.render
+    			# enemy_board.render
+			if enemy_board.cells[shot].empty? == false
+				puts "\nYour shot on #{shot} was a hit"
+			else
+				puts "\nYour shot on #{shot} was a miss"
+			end
 			win_check(enemy_board)
 		end
 	end
@@ -79,7 +84,7 @@ class Player
 		          return false
 		       end
 		 end
-		 
+
 		 return true
  	end
 
