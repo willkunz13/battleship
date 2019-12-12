@@ -11,38 +11,31 @@ class PlayerTest < Minitest::Test
 	def setup
 		@cruiser = Ship.new("Cruiser", 3)
 		@submarine = Ship.new("Submarine", 2)
-		@player_1 = Player.new([@cruiser, @submarine])
-		@computer = Player.new([@cruiser, @submarine], true)
+		@player_1 = Player.new("player 1",[@cruiser, @submarine])
+		@computer = Player.new("computer", [@cruiser, @submarine])
 	end
 
-	def test_placement_phase_exists
+	def test_player_exists
 		assert_instance_of Player, @player_1
 	end
 
 	def test_placement_phase_attributes
 		assert_equal @cruiser, @player_1.unplaced_ships[0]
 		assert_equal @submarine, @player_1.unplaced_ships[1]
+		assert_equal "computer", @computer.name
+	end
+
+	def test_auto_place
+		@computer.make_board
+		refute_includes @computer.board.render(true), "S"
+		@computer.auto_place
+		assert_includes @computer.board.render(true), "S"
 	end
 
 	def test_make_board
 		assert_equal [],@player_1.board
 		@player_1.make_board
 		assert_instance_of Board, @player_1.board
-	end
-
-	def test_unplaced_ship_names
-		assert_includes @player_1.unplaced_ship_names, @cruiser.name
-		assert_includes @player_1.unplaced_ship_names,@cruiser.name
-	end
-
-	def test_orientation_option_generator
-		skip
-		coordinate = "A1"
-		@player_1.make_board
-		assert_includes @player_1.orientation_option_generator(@cruiser, coordinate).values, ["A1", "A2", "A3"]
-		coordinate = "D4"
-		assert_equal @player_1.orientation_option_generator(@cruiser, coordinate), "Not possible to place that ship here"
-
 	end
 
 	def test_take_turn
@@ -64,4 +57,12 @@ class PlayerTest < Minitest::Test
 		assert_includes @computer.board.render(true), "S"
 		#binding.pry
 	end
+	
+	def test_orientation_option_generator
+		coordinate = "D4"
+		@computer.make_board
+		assert_equal false, @computer.orientation_option_generator(@cruiser, coordinate)
+	end
+		
+
 end

@@ -27,20 +27,15 @@ class Game
 		@ships << ships2
 		number_of_players = prompt.player_number
 		true_index = 0
-		# binding.pry
 		number_of_players.each.with_index do |player, index|
-			# binding.pry
 			@players << player = Player.new(player, @ships[index] + [true_index])
-			# binding.pry
 			true_index += 1
 		end
-		# number_of_players.last.each do |computer|
-		# 	# binding.pry
-		# 	@players << computer = Player.new(computer, @ships[true_index])
-		# 	true_index += 1
-		# end
+		 number_of_players.last.each do |computer|
+		 	@players << computer = Player.new(computer, @ships[true_index], true)
+		 	true_index += 1
+		 end
 		@players.each do |player|
-			# binding.pry
 			player.make_board
 		end
 	end
@@ -85,6 +80,7 @@ class Game
 		winner = ""
 		until win == true
 			@players.each.with_index do |player, index|
+				binding.pry
 				if player.win_check(@players[index - 1].board)
 					win = true
 					break

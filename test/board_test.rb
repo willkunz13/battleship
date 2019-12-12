@@ -19,6 +19,7 @@ class BoardTest < Minitest::Test
 
 	def test_board_attributes
 		assert_equal @board.cells.count, 16
+		assert_equal Hash, @board.cells.class
 	end
 
 	def test_valid_coordinate?
@@ -29,7 +30,7 @@ class BoardTest < Minitest::Test
 		assert_equal @board.valid_coordinate?("A22"), false
 	end
 
-	def test_valid_placement_lenght
+	def test_valid_placement_length
 		assert_equal @board.valid_placement?(@cruiser, ["A1","A2"]), false
 		assert_equal @board.valid_placement?(@submarine, ["A2", "A3", "A4"]), false
 
@@ -105,4 +106,16 @@ class BoardTest < Minitest::Test
 		assert_includes @board.render, "C . . . ."
 		assert_includes @board.render, "D . . . ."
 	end
+	
+	def test_valid_horizontal_generator
+		assert_equal false, @board.valid_horizontal_generator(@cruiser, "D1")
+		assert_equal ["A1","B1","C1"],@board.valid_horizontal_generator(@cruiser, "A1")
+
+	end
+
+	def test_vertical_generator
+		assert_equal false, @board.valid_vertical_generator(@cruiser, "A4")
+		assert_equal ["A1","A2","A3"],@board.valid_vertical_generator(@cruiser, "A1")
+	end
+
 end
