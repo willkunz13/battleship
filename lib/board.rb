@@ -53,8 +53,8 @@ class Board
 				return false
 			else
 			end
-		return valid_possible_horizontal_coordinates
 		end
+		return valid_possible_horizontal_coordinates
 	end
 
 	def valid_vertical_generator(ship, coordinate)

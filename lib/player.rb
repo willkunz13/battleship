@@ -18,12 +18,6 @@ class Player
 
 	end
 
-	def unplaced_ship_names
-		@unplaced_ships.map do |ship|
-			ship.name
-		end
-	end
-
 	def auto_place
 		@unplaced_ships.each do |ship|
 			true_test = false
@@ -49,7 +43,6 @@ class Player
 			possible_directions << board.valid_horizontal_generator(ship, coordinate)
 		end
 		if board.valid_vertical_generator(ship, coordinate) != false
-			binding.pry
 			possible_directions << board.valid_vertical_generator(ship, coordinate)
 		end
 		if possible_directions == []
@@ -65,6 +58,7 @@ class Player
 				random_cell = enemy_board.cells.keys.sample
 			end
 			shot = random_cell
+			enemy_board.cells[shot].fire_upon
 			return win_check(enemy_board)
 		else
 			enemy_board.cells[shot].fire_upon
